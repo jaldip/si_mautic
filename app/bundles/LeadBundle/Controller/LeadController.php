@@ -600,7 +600,19 @@ class LeadController extends FormController
             if ($cancelled || $valid) { // cancelled or success
                 // Create and write to a custom log file
                 $path    = '/var/www/html/mautic/var/logs/trigger_contact.txt';
-                file_put_contents($path, '->Mautic_test_contact'.date('Y-m-d H:i:s').PHP_EOL, FILE_APPEND);
+                $data    = $this->postActionRedirect(
+                    [
+                        'returnUrl'       => $returnUrl,
+                        'viewParameters'  => $viewParameters,
+                        'contentTemplate' => $template,
+                        'passthroughVars' => [
+                            'activeLink'    => '#mautic_contact_index',
+                            'mauticContent' => 'lead',
+                            'closeModal'    => 1, // just in case in quick form
+                        ],
+                    ]
+                );
+                file_put_contents($path, '->Mautic_test_contact ->'.$data.' -> '.date('Y-m-d H:i:s').PHP_EOL, FILE_APPEND);
 
                 return $this->postActionRedirect(
                     [
