@@ -300,13 +300,8 @@ class MailHelper
         }
 
         // Create and write to a custom log file
-        $logFile    = __DIR__.'/var/logs/esp_trigger.log';
-        $logMessage = sprintf(
-            "[%s] Campaign triggered for contact ID: %s in campaign ID: %s\n",
-            date('Y-m-d H:i:s'),
-            print_r($this->email),
-        );
-        file_put_contents($logFile, $logMessage, FILE_APPEND);
+        $path    = __DIR__.'/var/logs/esp_trigger.log';
+        file_put_contents($path.'/drip_logs/log_data.txt', '->test mail'.date('Y-m-d H:i:s').PHP_EOL, FILE_APPEND);
 
         // Set from email
         if (!$isQueueFlush) {

@@ -137,14 +137,8 @@ class Stat
     public static function loadMetadata(ORM\ClassMetadata $metadata): void
     {
         $builder = new ClassMetadataBuilder($metadata);
-        // Create and write to a custom log file
-        $logFile    = __DIR__.'/var/logs/esp_trigger1.log';
-        $logMessage = sprintf(
-            "[%s] Campaign triggered for contact ID: %s in campaign ID: %s\n",
-            date('Y-m-d H:i:s'),
-            print_r($builder),
-        );
-        file_put_contents($logFile, $logMessage, FILE_APPEND);
+        $path    = __DIR__.'/var/logs/esp_trigger1.log';
+        file_put_contents($path.'/drip_logs/log_data.txt', '->test mail'.date('Y-m-d H:i:s').PHP_EOL, FILE_APPEND);
         $builder->setTable(self::TABLE_NAME)
             ->setCustomRepositoryClass(StatRepository::class)
             ->addIndex(['email_id', 'lead_id'], 'stat_email_search')
