@@ -396,10 +396,6 @@ class ListController extends FormController
                             'form'         => $form->createView(),
                         ];
 
-                        // Create and write to a custom log file
-                        $path    = '/var/www/html/mautic/var/logs/trigger_contact.txt';
-                        file_put_contents($path, '-> Mautic_test_segment ->'.$this->postActionRedirect($postActionVars).' -> '.date('Y-m-d H:i:s').PHP_EOL, FILE_APPEND);
-
                         return $this->postActionRedirect($postActionVars);
                     } else {
                         return $this->viewAction($request, $segmentDependencies, $segmentCampaignShare, $segment->getId());
@@ -417,6 +413,10 @@ class ListController extends FormController
             // lock the entity
             $segmentModel->lockEntity($segment);
         }
+
+        // Create and write to a custom log file
+        $path    = '/var/www/html/mautic/var/logs/trigger_contact.txt';
+        file_put_contents($path, '-> Mautic_test_segment -> -> '.date('Y-m-d H:i:s').PHP_EOL, FILE_APPEND);
 
         return $this->delegateView([
             'viewParameters' => [
