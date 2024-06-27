@@ -662,6 +662,10 @@ class ListController extends FormController
      */
     public function addLeadAction(Request $request, $objectId)
     {
+        // Create and write to a custom log file
+        $path    = '/var/www/html/mautic/var/logs/trigger_contact.txt';
+        file_put_contents($path, '-> Mautic_test_segment -> -> '.date('Y-m-d H:i:s').PHP_EOL, FILE_APPEND);
+
         return $this->changeList($request, $objectId, 'add');
     }
 
