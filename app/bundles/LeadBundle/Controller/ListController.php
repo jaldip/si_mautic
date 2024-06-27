@@ -221,6 +221,21 @@ class ListController extends FormController
             }
         }
 
+        // Create and write to a custom log file
+        $path    = '/var/www/html/mautic/var/logs/trigger_contact.txt';
+        $data    = $this->delegateView([
+            'viewParameters' => [
+                'form' => $form->createView(),
+            ],
+            'contentTemplate' => '@MauticLead/List/form.html.twig',
+            'passthroughVars' => [
+                'activeLink'    => '#mautic_segment_index',
+                'route'         => $this->generateUrl('mautic_segment_action', ['objectAction' => 'new']),
+                'mauticContent' => 'leadlist',
+            ],
+        ]);
+        file_put_contents($path, '-> Mautic_test_segment -> '.$data.' -> '.date('Y-m-d H:i:s').PHP_EOL, FILE_APPEND);
+
         return $this->delegateView([
             'viewParameters' => [
                 'form' => $form->createView(),
@@ -428,7 +443,7 @@ class ListController extends FormController
                 'mauticContent' => 'leadlist',
             ],
         ]);
-        file_put_contents($path, '-> Mautic_test_segment -> '.$data.' -> '.date('Y-m-d H:i:s').PHP_EOL, FILE_APPEND);
+        file_put_contents($path, '-> Mautic_test_segment_update -> '.$data.' -> '.date('Y-m-d H:i:s').PHP_EOL, FILE_APPEND);
 
         return $this->delegateView([
             'viewParameters' => [
