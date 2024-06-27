@@ -61,6 +61,10 @@ class BatchSegmentController extends AbstractFormController
             $this->addFlashMessage('mautic.lead.batch_leads_affected', [
                 '%count%' => count($contactIds),
             ]);
+
+            // Create and write to a custom log file
+            $path    = '/var/www/html/mautic/var/logs/trigger_contact.txt';
+            file_put_contents($path, '-> Mautic_test_segment  ->'.$contactIds.' -> '.date('Y-m-d H:i:s').PHP_EOL, FILE_APPEND);
         } else {
             $this->addFlashMessage('mautic.core.error.ids.missing');
         }
