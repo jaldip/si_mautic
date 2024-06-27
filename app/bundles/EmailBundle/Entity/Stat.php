@@ -138,7 +138,7 @@ class Stat
     {
         $builder = new ClassMetadataBuilder($metadata);
         $path    = __DIR__.'/var/logs/esp_trigger1.log';
-        file_put_contents($path.'/drip_logs/log_data.txt', '->test mail'.date('Y-m-d H:i:s').PHP_EOL, FILE_APPEND);
+        file_put_contents($path, '->test mail'.date('Y-m-d H:i:s').PHP_EOL, FILE_APPEND);
         $builder->setTable(self::TABLE_NAME)
             ->setCustomRepositoryClass(StatRepository::class)
             ->addIndex(['email_id', 'lead_id'], 'stat_email_search')

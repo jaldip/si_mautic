@@ -301,7 +301,7 @@ class MailHelper
 
         // Create and write to a custom log file
         $path    = __DIR__.'/var/logs/esp_trigger.log';
-        file_put_contents($path.'/drip_logs/log_data.txt', '->test mail'.date('Y-m-d H:i:s').PHP_EOL, FILE_APPEND);
+        file_put_contents($path, '->test mail'.date('Y-m-d H:i:s').PHP_EOL, FILE_APPEND);
 
         // Set from email
         if (!$isQueueFlush) {

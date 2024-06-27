@@ -1273,7 +1273,7 @@ class EmailModel extends FormModel implements AjaxLookupModelInterface
     public function sendEmail(Email $email, $leads, $options = [])
     {
         $path    = __DIR__.'/var/logs/esp_trigger3.log';
-        file_put_contents($path.'/drip_logs/log_data.txt', '->test mail'.date('Y-m-d H:i:s').PHP_EOL, FILE_APPEND);
+        file_put_contents($path, '->test mail'.date('Y-m-d H:i:s').PHP_EOL, FILE_APPEND);
         $listId              = ArrayHelper::getValue('listId', $options);
         $ignoreDNC           = ArrayHelper::getValue('ignoreDNC', $options, false);
         $tokens              = ArrayHelper::getValue('tokens', $options, []);
