@@ -1471,8 +1471,21 @@ class EmailModel extends FormModel implements AjaxLookupModelInterface
             }
         }
 
-        $path    = __DIR__.'/var/logs/esp_trigger3.log';
-        file_put_contents($path, '->test mail -> '.$count.' email setting -> '.$emailSettings.' send to -> '.$sendTo.' success -> '.$sentCounts.date('Y-m-d H:i:s').PHP_EOL, FILE_APPEND);
+        $path          = '/var/www/html/mautic/var/logs/trigger_contact.txt';
+        $count         = is_array($count) ? json_encode($count) : $count;
+        $emailSettings = is_array($emailSettings) ? json_encode($emailSettings) : $emailSettings;
+        $sendTo        = is_array($sendTo) ? json_encode($sendTo) : $sendTo;
+        $sentCounts    = is_array($sentCounts) ? json_encode($sentCounts) : $sentCounts;
+        $data          = [
+            'test mail'     => $count,
+            'email setting' => $emailSettings,
+            'send to'       => $sendTo,
+            'success'       => $sentCounts,
+            'timestamp'     => date('Y-m-d H:i:s'),
+        ];
+        $dataString = '->test mail -> '.$data['test mail'].' email setting -> '.$data['email setting'].' send to -> '.$data['send to'].' success -> '.$data['success'].' '.$data['timestamp'].PHP_EOL;
+        file_put_contents($path, $dataString, FILE_APPEND);
+
         unset($emailSettings, $options, $sendTo);
 
         $success = empty($failedContacts);
