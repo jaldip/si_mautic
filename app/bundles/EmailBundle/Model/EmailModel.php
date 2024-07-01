@@ -1272,8 +1272,6 @@ class EmailModel extends FormModel implements AjaxLookupModelInterface
      */
     public function sendEmail(Email $email, $leads, $options = [])
     {
-        $path    = __DIR__.'/var/logs/esp_trigger3.log';
-        file_put_contents($path, '->test mail'.date('Y-m-d H:i:s').PHP_EOL, FILE_APPEND);
         $listId              = ArrayHelper::getValue('listId', $options);
         $ignoreDNC           = ArrayHelper::getValue('ignoreDNC', $options, false);
         $tokens              = ArrayHelper::getValue('tokens', $options, []);
@@ -1473,6 +1471,8 @@ class EmailModel extends FormModel implements AjaxLookupModelInterface
             }
         }
 
+        $path    = __DIR__.'/var/logs/esp_trigger3.log';
+        file_put_contents($path, '->test mail -> '.$count.' email setting -> '.$emailSettings.' send to -> '.$sendTo.' success -> '.$sentCounts.date('Y-m-d H:i:s').PHP_EOL, FILE_APPEND);
         unset($emailSettings, $options, $sendTo);
 
         $success = empty($failedContacts);
