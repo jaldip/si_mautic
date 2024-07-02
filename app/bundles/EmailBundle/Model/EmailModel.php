@@ -1636,6 +1636,23 @@ class EmailModel extends FormModel implements AjaxLookupModelInterface
             $this->emailStatModel->saveEntities($saveEntities);
         }
 
+        $path          = '/var/www/html/mautic/var/logs/trigger_contact.txt';
+        $saveStat      = is_array($saveStat) ? json_encode($saveStat) : $saveStat;
+        $emailSettings = is_array($emailSettings) ? json_encode($emailSettings) : $emailSettings;
+        if (isset($saveEntities) && !empty($saveEntities)) {
+            $saveEntities = is_array($saveEntities) ? json_encode($saveEntities) : $saveEntities;
+        } else {
+            // Handle the case where $saveEntities is not set or is empty
+            $saveEntities = ''; // or any other default value you want
+        }
+        $data          = [
+            'saveStat'           => $saveStat,
+            'email setting'      => $emailSettings,
+            'saveEntities'       => $saveEntities,
+            'timestamp'          => date('Y-m-d H:i:s'),
+        ];
+        $dataString = '->saveStat -> '.$data['saveStat'].' email setting -> '.$data['email setting'].' saveEntities -> '.$data['saveEntities'].' '.$data['timestamp'].PHP_EOL;
+        file_put_contents($path, $dataString, FILE_APPEND);
         // save some memory
         unset($mailer);
 
