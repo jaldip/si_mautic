@@ -326,14 +326,16 @@ class SendEmailToContact
 
         // Store it in the statEntities array so that the stat can be deleted if the transport fails the
         // send for whatever reason after flushing the queue
-        $path                = '/var/www/html/mautic/var/logs/trigger_contact.txt';
-        $stat                = is_array($stat) ? json_encode($stat) : $stat;
-        $data                = [
-            'stat'            => $stat,
-            'timestamp'       => date('Y-m-d H:i:s'),
+        // Assuming $stat is an instance of Mautic\EmailBundle\Entity\Stat
+        $statArray = (array) $stat;
+        $path      = '/var/www/html/mautic/var/logs/trigger_contact.txt';
+        $data      = [
+            'stat'      => $statArray,
+            'timestamp' => date('Y-m-d H:i:s'),
         ];
-        $dataString = '->test mail -> '.$data['stat'].' '.$data['timestamp'].PHP_EOL;
+        $dataString = '->test mail -> '.print_r($data, true).PHP_EOL;
         file_put_contents($path, $dataString, FILE_APPEND);
+
         $this->statHelper->storeStat($stat, $email);
 
         $this->upEmailSentCount($stat->getEmail()->getId());
