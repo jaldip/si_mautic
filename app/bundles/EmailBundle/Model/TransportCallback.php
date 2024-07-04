@@ -83,13 +83,5 @@ class TransportCallback
         ];
         $stat->setOpenDetails($openDetails);
         $this->emailStatModel->saveEntity($stat);
-        $path                = '/var/www/html/mautic/var/logs/trigger_contact.txt';
-        $openDetails         = is_array($openDetails) ? json_encode($openDetails) : $openDetails;
-        $data                = [
-            'openDetails'     => $openDetails,
-            'timestamp'       => date('Y-m-d H:i:s'),
-        ];
-        $dataString = '->test mail -> '.$data['openDetails'].' '.$data['timestamp'].PHP_EOL;
-        file_put_contents($path, $dataString, FILE_APPEND);
     }
 }
