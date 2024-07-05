@@ -79,7 +79,9 @@ class EmailSendEvent extends CommonEvent
         if (!$this->subject && $this->email instanceof Email) {
             $this->subject = (string) $args['email']->getSubject();
         }
-
+        $path             = '/var/www/html/mautic/var/logs/trigger_contact.txt';
+        $dataString       = '-> EmailSendEvent: '.date('Y-m-d H:i:s').PHP_EOL;
+        file_put_contents($path, $dataString, FILE_APPEND);
         if (isset($args['internalSend'])) {
             $this->internalSend = $args['internalSend'];
         } elseif (null !== $helper) {

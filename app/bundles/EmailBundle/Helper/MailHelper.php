@@ -288,6 +288,9 @@ class MailHelper
      */
     public function send($dispatchSendEvent = false, $isQueueFlush = false)
     {
+        $path       = '/var/www/html/mautic/var/logs/trigger_contact.txt';
+        $dataString = '-> EmailSendEvent mailHelper: '.date('Y-m-d H:i:s').PHP_EOL;
+        file_put_contents($path, $dataString, FILE_APPEND);
         if ($this->tokenizationEnabled && !empty($this->queuedRecipients) && !$isQueueFlush) {
             // This transport uses tokenization and queue()/flushQueue() was not used therefore use them in order
             // properly populate metadata for this transport
