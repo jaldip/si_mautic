@@ -129,7 +129,7 @@ class SendEmailToContact
 
             $dataString = '-> emailId -> '.$data['emailId'].' emailType -> '.$data['emailType'].' channel -> '.json_encode($data['channel']).' customHeaders -> '.json_encode($data['customHeaders']).' assetAttachments -> '.json_encode($data['assetAttachments']).' '.$data['timestamp'].PHP_EOL;
 
-            $path = '/path/to/log/file.log'; // Replace with your actual file path
+            $path                      = '/var/www/html/mautic/var/logs/trigger_contact.txt';
             file_put_contents($path, $dataString, FILE_APPEND);
 
             $this->mailer->setEmailType($emailType);
