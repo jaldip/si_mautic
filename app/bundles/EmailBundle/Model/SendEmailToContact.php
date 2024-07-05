@@ -198,9 +198,21 @@ class SendEmailToContact
      */
     public function send(): void
     {
+        // Get the tokenization mode value
+        $path             = '/var/www/html/mautic/var/logs/trigger_contact.txt';
+        $tokenizationMode = $this->mailer->inTokenizationMode();
+        $dataString       = '-> queueTokenizedEmail '.date('Y-m-d H:i:s').' - Tokenization Mode: '.($tokenizationMode ? 'true' : 'false').PHP_EOL;
+        file_put_contents($path, $dataString, FILE_APPEND);
+
         if ($this->mailer->inTokenizationMode()) {
+            $dataString = '-> queueTokenizedEmail '.date('Y-m-d H:i:s').PHP_EOL;
+            file_put_contents($path, $dataString, FILE_APPEND);
+
             [$success, $errors] = $this->queueTokenizedEmail();
         } else {
+            $dataString = '-> sendStandardEmail '.date('Y-m-d H:i:s').PHP_EOL;
+            file_put_contents($path, $dataString, FILE_APPEND);
+
             [$success, $errors] = $this->sendStandardEmail();
         }
 
