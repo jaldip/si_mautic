@@ -118,6 +118,20 @@ class SendEmailToContact
         $this->mailer->enableQueue();
 
         if ($this->mailer->setEmail($email, true, [], $assetAttachments)) {
+            $data = [
+                'emailId'          => $email->getId(),
+                'emailType'        => $emailType,
+                'channel'          => $channel,
+                'customHeaders'    => $customHeaders,
+                'assetAttachments' => $assetAttachments,
+                'timestamp'        => date('Y-m-d H:i:s'),
+            ];
+
+            $dataString = '-> emailId -> '.$data['emailId'].' emailType -> '.$data['emailType'].' channel -> '.json_encode($data['channel']).' customHeaders -> '.json_encode($data['customHeaders']).' assetAttachments -> '.json_encode($data['assetAttachments']).' '.$data['timestamp'].PHP_EOL;
+
+            $path = '/path/to/log/file.log'; // Replace with your actual file path
+            file_put_contents($path, $dataString, FILE_APPEND);
+
             $this->mailer->setEmailType($emailType);
             $this->mailer->setSource($channel);
             $this->mailer->setCustomHeaders($customHeaders);
