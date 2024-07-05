@@ -81,6 +81,7 @@ class EmailModel extends FormModel implements AjaxLookupModelInterface
      * @var bool
      */
     protected $updatingTranslationChildren = false;
+    protected LoggerInterface $mauticLogger;
 
     /**
      * @var array
@@ -1417,6 +1418,8 @@ class EmailModel extends FormModel implements AjaxLookupModelInterface
 
         foreach ($groupedContactsByEmail as $parentId => $translatedEmails) {
             $useSettings = $emailSettings[$parentId];
+
+            $this->mauticLogger->info('Processing parentId', ['parentId' => $parentId, 'settings' => $useSettings]);
             foreach ($translatedEmails as $translatedId => $contacts) {
                 $emailEntity = ($translatedId === $parentId) ? $useSettings['entity'] : $useSettings['translations'][$translatedId];
 
