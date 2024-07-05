@@ -402,7 +402,26 @@ class SendEmailToContact
         // Create the stat to ensure it is available for emails sent
         $this->createContactStatEntry($this->contact['email']);
 
+        $path             = '/var/www/html/mautic/var/logs/trigger_contact.txt';
+        // Log the start of the send email process
+        $dataString = '-> sendStandardEmail start: '.date('Y-m-d H:i:s').' - Contact: '.$this->contact['email'].PHP_EOL;
+        file_put_contents($path, $dataString, FILE_APPEND);
+
         // Now send but don't redispatch the event
-        return $this->mailer->queue(false, MailHelper::QUEUE_RETURN_ERRORS);
+        $result     = $this->mailer->queue(false, MailHelper::QUEUE_RETURN_ERRORS);
+        $dataString = '-> Queued the email for sending: '.date('Y-m-d H:i:s').PHP_EOL;
+        file_put_contents($path, $dataString, FILE_APPEND);
+
+        // Log the result of the email sending process
+        if (true === $result) {
+            $dataString = '-> Email successfully queued: '.date('Y-m-d H:i:s').' - Contact: '.$this->contact['email'].'-- '.json_encode($result).PHP_EOL;
+        } else {
+            $dataString = '-> Failed to queue email: '.date('Y-m-d H:i:s').' - Contact: '.$this->contact['email'].' - Errors: '.json_encode($result).PHP_EOL;
+        }
+        file_put_contents($path, $dataString, FILE_APPEND);
+
+        // Now send but don't redispatch the event
+        // return $this->mailer->queue(false, MailHelper::QUEUE_RETURN_ERRORS);
+        return $result;
     }
 }

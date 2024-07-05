@@ -1463,7 +1463,9 @@ class MailHelper
         if (null == $this->dispatcher) {
             $this->dispatcher = $this->factory->getDispatcher();
         }
-
+        $path       = '/var/www/html/mautic/var/logs/trigger_contact.txt';
+        $dataString = '-> dispatchSendEvent : '.date('Y-m-d H:i:s').PHP_EOL;
+        file_put_contents($path, $dataString, FILE_APPEND);
         $event = new EmailSendEvent($this);
 
         $this->dispatcher->dispatch($event, EmailEvents::EMAIL_ON_SEND);
